@@ -73,9 +73,6 @@
   color: #00000080;
 }
 
-.modal__label {
-}
-
 .modal__legend {
   font-family: "Cabinet Grotesk", sans-serif;
   margin-bottom: 12px;
@@ -95,11 +92,16 @@
 }
 
 .modal__label_type_radio {
+  color: #00000080;
 }
 
 .modal__radio-input {
   margin-right: 8px;
   cursor: pointer;
+}
+
+.modal__label_type_radio:has(input[type="radio"]:checked) {
+  color: #000;
 }
 
 .modal__submit {
@@ -114,7 +116,7 @@
   font-size: 16px;
   line-height: 20px;
   color: #fff;
-  background-color: #0000004d;
+  background-color: #000000;
   cursor: pointer;
 }
 
