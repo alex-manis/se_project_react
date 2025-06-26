@@ -32,17 +32,21 @@ function App() {
   };
 
   useEffect(() => {
+    console.log("useEffect triggered, activeModal:", activeModal); // Добавить эту строку
+
     if (!activeModal) return;
 
     const handleEscClose = (e) => {
+      console.log("Key pressed:", e.key); // Добавить эту строку
       if (e.key === "Escape") {
+        console.log("Escape detected, closing modal"); // Добавить эту строку
         closeActiveModal();
       }
     };
 
     document.addEventListener("keydown", handleEscClose);
-
     return () => {
+      console.log("Removing event listener"); // Добавить эту строку
       document.removeEventListener("keydown", handleEscClose);
     };
   }, [activeModal]);
