@@ -70,7 +70,7 @@
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
-  color: #00000080;
+  color: #000;
 }
 
 .modal__legend {
@@ -122,4 +122,13 @@
 
 .modal__submit:hover {
   background-color: #00000099;
+  cursor: pointer;
+}
+
+.modal__submit-disabled {
+  background-color: #0000004d;
+  color: #fff;
+  cursor: not-allowed;
+  pointer-events: none;
+  transition: background-color 0.3s ease;
 }

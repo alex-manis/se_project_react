@@ -1,18 +1,20 @@
-.modal__content_type_image {
+.modal__content.modal__content_type_image {
   display: flex;
+  position: relative;
   flex-direction: column;
-  max-width: 498px;
   padding: 0;
   border-radius: 16px;
 }
 
-.modal__close_image {
+.modal__close.modal__close_image {
   top: 24px;
   right: 24px;
+  background-image: url("../../assets/closewhite.svg");
 }
 
 .modal__image {
   width: 100%;
+  max-height: 498px;
 }
 
 .modal__footer {
@@ -36,4 +38,15 @@
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
+}
+
+.item-modal__delete-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  height: 20px;
+  width: 98px;
+  bottom: 74px;
+  right: 34px;
+  position: absolute;
 }

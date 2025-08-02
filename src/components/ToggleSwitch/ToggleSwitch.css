@@ -1,0 +1,73 @@
+.toggle-switch {
+  width: 56px;
+  height: 28px;
+  border: 2px solid #7e7e7e;
+  border-radius: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  margin-right: 0;
+  margin-left: auto;
+  background-color: white;
+}
+
+.toggle-switch:hover {
+  border-color: black;
+}
+
+.toggle-switch__checkbox {
+  opacity: 0;
+}
+
+.toggle-switch__circle {
+  background-color: black;
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  border-radius: 50%;
+  left: 0;
+  transition: all 0.1s;
+}
+
+.toggle-switch__text {
+  position: absolute;
+  color: #7e7e7e;
+  top: 7px;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 100%;
+  transition: transform 0.2s, color 0.2s;
+  mix-blend-mode: normal;
+}
+
+.toggle-switch__text_F {
+  left: 9px;
+}
+
+.toggle-switch__text_C {
+  right: 9px;
+}
+
+.toggle-switch__checkbox:checked ~ .toggle-switch__circle {
+  left: 28px;
+}
+
+.toggle-switch:hover .toggle-switch__text_C {
+  mix-blend-mode: difference;
+  color: #fff;
+}
+
+.toggle-switch__checkbox:checked:hover ~ .toggle-switch__text_C {
+  mix-blend-mode: normal;
+  color: #fff;
+}
+
+.toggle-switch__checkbox:checked:hover ~ .toggle-switch__text_F {
+  mix-blend-mode: difference;
+  color: #fff;
+}
+
+.toggle-switch__text_color-white {
+  color: #fff;
+}
