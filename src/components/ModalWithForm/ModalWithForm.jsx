@@ -1,33 +1,33 @@
+import { Modal } from "../Modal/Modal";
 import "./ModalWithForm.css";
 
 function ModalWithForm({
-  children,
-  buttonText,
+  name,
   title,
   isOpen,
   onClose,
   onSubmit,
   isValid,
+  buttonText,
+  isLoading,
+  children,
 }) {
   return (
-    <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
-      <div className="modal__content">
-        <h2 className="modal__title">{title}</h2>
-        <button onClick={onClose} type="button" className="modal__close" />
-        <form onSubmit={onSubmit} className="modal__form">
-          {children}
-          <button
-            type="submit"
-            disabled={!isValid}
-            className={`modal__submit ${
-              !isValid ? "modal__submit-disabled" : ""
-            }`}
-          >
-            {buttonText}
-          </button>
-        </form>
-      </div>
-    </div>
+    <Modal name={name} isOpen={isOpen} onClose={onClose}>
+      <h2 className="modal__title">{title}</h2>
+      <form onSubmit={onSubmit} className="modal__form" noValidate>
+        {children}
+        <button
+          type="submit"
+          disabled={!isValid || isLoading}
+          className={`modal__submit ${
+            !isValid || isLoading ? "modal__submit-disabled" : ""
+          }`}
+        >
+          {isLoading ? "Saving..." : buttonText}
+        </button>
+      </form>
+    </Modal>
   );
 }
 

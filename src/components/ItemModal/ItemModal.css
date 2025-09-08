@@ -1,6 +1,7 @@
-.modal__content.modal__content_type_image {
+@import "../Modal/Modal.css";
+
+.modal__content_type_image {
   display: flex;
-  position: relative;
   flex-direction: column;
   padding: 0;
   border-radius: 16px;
@@ -24,14 +25,7 @@
   margin: 20px auto 32px 32px;
 }
 
-.modal__caption {
-  margin: 0;
-  font-family: "Cabinet Grotesk", sans-serif;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 24px;
-}
-
+.modal__caption,
 .modal__weather {
   margin: 0;
   font-family: "Cabinet Grotesk", sans-serif;

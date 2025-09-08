@@ -9,3 +9,16 @@
 .profile__clothing-items {
   right: 40px;
 }
+
+.profile__signout-btn {
+  margin-left: 16px;
+  background: transparent;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.profile__signout-btn:hover {
+  text-decoration: underline;
+}
