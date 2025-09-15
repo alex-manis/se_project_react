@@ -1,5 +1,5 @@
-const checkResponse = (res) =>
-  res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+import { checkResponse } from "./api";
+
 const request = (url, options) => fetch(url, options).then(checkResponse);
 
 export const getWeather = ({ latitude, longitude }, APIkey) => {

@@ -86,6 +86,7 @@ function App() {
       })
       .then((res) => {
         setCurrentUser(res.data);
+        loadUserItems(res.data._id);
         closeActiveModal();
       })
       .catch(console.error)
@@ -177,6 +178,12 @@ function App() {
   useEffect(() => {
     getWeather(coordinates, APIkey)
       .then((data) => setWeatherData(filterWeatherData(data)))
+      .catch(console.error);
+
+    getItems()
+      .then(({ data }) => {
+        setClothingItems(data.reverse());
+      })
       .catch(console.error);
   }, []);
 
