@@ -6,7 +6,7 @@
   cursor: pointer;
   overflow: hidden;
   position: relative;
-  margin-right: 0;
+  margin-right: 20px;
   margin-left: auto;
   background-color: white;
 }
@@ -37,7 +37,9 @@
   font-weight: 700;
   font-size: 14px;
   line-height: 100%;
-  transition: transform 0.2s, color 0.2s;
+  transition:
+    transform 0.2s,
+    color 0.2s;
   mix-blend-mode: normal;
 }
 

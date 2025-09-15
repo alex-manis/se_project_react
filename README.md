@@ -7,19 +7,29 @@ The idea of the application is pretty simple - we make a call to an API, which t
 ## Project features
 
 - Vite & React
-- Weather API connected
-- User can add/delete new items to JSON mock server
+- Weather API integration
+- User registration and authorization (JWT)
+- Add / delete / like clothing items
 - Validation
-- React router
+- React Router
 - React Context
+- Protected routes & token check
+
+## Recent updates
+
+- Added **registration and login** logic with protected API routes
+- Implemented **CurrentUserContext** to share user data
+- Added **EditProfileModal** to update user info
+- Implemented **likes and dislikes** for clothing items
+- Added **sign out** functionality
 
 ## Future plans
 
-- To optimize for different resolutions - make responsive design
+- Responsive design for different screen resolutions
 
 ## Links
 
 - [Project](https://github.com/alex-manis/se_project_react)
 - [GH Pages](https://alex-manis.github.io/se_project_react)
-
 - [Figma Design](https://www.figma.com/design/dQLJwEKasIdspciJAJrCaf/Sprint-11_-WTWR)
+- [Backend Repository](https://github.com/alex-manis/se_project_express)

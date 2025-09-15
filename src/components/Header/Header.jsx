@@ -60,7 +60,7 @@ function Header({
             Sign up
           </button>
           <button onClick={onLoginClick} className="header__auth-btn">
-            Sign in
+            Log in
           </button>
         </div>
       )}

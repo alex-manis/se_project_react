@@ -29,6 +29,9 @@
   line-height: 100%;
   color: #00000099;
 }
+.clothes-section__add-new-btn:hover {
+  color: #000;
+}
 
 .clothes-section__items {
   display: flex;

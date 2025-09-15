@@ -3,7 +3,13 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect } from "react";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
-function RegisterModal({ isOpen, onClose, onRegister, isLoading }) {
+function RegisterModal({
+  isOpen,
+  onClose,
+  onRegister,
+  isLoading,
+  onLoginClick,
+}) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
 
@@ -23,13 +29,15 @@ function RegisterModal({ isOpen, onClose, onRegister, isLoading }) {
 
   return (
     <ModalWithForm
+      name="register"
       title="Register"
-      buttonText={isLoading ? "Saving..." : "Sign Up"}
+      buttonText={isLoading ? "Signing up..." : "Sign Up"}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       isValid={isValid && !isLoading}
       isLoading={isLoading}
+      extraButton={{ text: "or Log in", onClick: onLoginClick }}
     >
       <label className="modal__label">
         Email*

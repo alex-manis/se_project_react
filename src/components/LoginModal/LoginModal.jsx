@@ -3,12 +3,21 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect } from "react";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
-function LoginModal({ isOpen, onClose, onLogin, isLoading }) {
+function LoginModal({
+  isOpen,
+  onClose,
+  onLogin,
+  isLoading,
+  onRegisterClick,
+  loginError,
+  setLoginError,
+}) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoginError("");
     onLogin({
       email: values.email,
       password: values.password,
@@ -17,7 +26,13 @@ function LoginModal({ isOpen, onClose, onLogin, isLoading }) {
 
   useEffect(() => {
     if (!isOpen) resetForm();
-  }, [isOpen, resetForm]);
+    setLoginError("");
+  }, [isOpen, resetForm, setLoginError]);
+
+  const handleInputChange = (e) => {
+    if (loginError) setLoginError("");
+    handleChange(e);
+  };
 
   return (
     <ModalWithForm
@@ -28,6 +43,7 @@ function LoginModal({ isOpen, onClose, onLogin, isLoading }) {
       onSubmit={handleSubmit}
       isValid={isValid && !isLoading}
       isLoading={isLoading}
+      extraButton={{ text: "or Sign up", onClick: onRegisterClick }}
     >
       <label className="modal__label">
         Email
@@ -37,7 +53,7 @@ function LoginModal({ isOpen, onClose, onLogin, isLoading }) {
           className="modal__input"
           placeholder="Email"
           value={values.email || ""}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
         <span className="modal__error">{errors.email}</span>
@@ -48,14 +64,16 @@ function LoginModal({ isOpen, onClose, onLogin, isLoading }) {
         <input
           type="password"
           name="password"
+          minLength={2}
           className="modal__input"
           placeholder="Password"
           value={values.password || ""}
-          onChange={handleChange}
+          onChange={handleInputChange}
           required
         />
         <span className="modal__error">{errors.password}</span>
       </label>
+      {loginError && <p className="modal__login-error">{loginError}</p>}
     </ModalWithForm>
   );
 }

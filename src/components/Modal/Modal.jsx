@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "./Modal.css";
 
-export const Modal = ({ isOpen, onClose, children }) => {
+export const Modal = ({ isOpen, onClose, children, type }) => {
   useEffect(() => {
     if (!isOpen) return;
 
@@ -24,7 +24,11 @@ export const Modal = ({ isOpen, onClose, children }) => {
       className={`modal ${isOpen ? "modal_opened" : ""}`}
       onClick={handleOverlay}
     >
-      <div className="modal__content">
+      <div
+        className={`modal__content ${
+          type ? `modal__content_type_${type}` : ""
+        }`}
+      >
         {children}
         <button className="modal__close" type="button" onClick={onClose} />
       </div>

@@ -7,18 +7,45 @@
   overflow: hidden;
 }
 
-.card__name {
+.card__header {
+  display: flex;
   position: absolute;
+  align-items: center;
   top: 15px;
   margin: 0;
-  padding: 2px 12px 2px 12px;
+  gap: 10px;
+}
+.card__name {
+  margin: 0;
   border-radius: 4px;
   overflow: hidden;
+  padding: 2px 12px 2px 12px;
   background-color: #fff;
   font-family: "Cabinet Grotesk", sans-serif;
   font-size: 16px;
   line-height: 20px;
   opacity: 60%;
+}
+
+.card__like-btn {
+  background: transparent url(../../assets/like.svg) center no-repeat;
+  background-size: contain;
+  padding: 0;
+  width: 18px;
+  height: 15px;
+  border: 1px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card__like-btn:hover {
+  transform: scale(1.2);
+}
+
+.card__like-btn_active {
+  background: url(../../assets/likeActive.svg) center no-repeat;
+  background-size: contain;
+  cursor: pointer;
 }
 
 .card__image {

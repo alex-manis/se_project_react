@@ -6,34 +6,21 @@ function Profile({
   onCardClick,
   clothingItems,
   handleAddClick,
+  onCardLike,
   onEditProfile,
   onSignOut,
 }) {
   return (
     <div className="profile">
       <section className="profile__sidebar">
-        <SideBar />
+        <SideBar onSignOut={onSignOut} onEditProfile={onEditProfile} />
       </section>
-
-      <button
-        className="profile__signout-btn"
-        onClick={onSignOut}
-        type="button"
-      >
-        Sign out
-      </button>
-      <button
-        type="button"
-        className="profile__edit-btn"
-        onClick={onEditProfile}
-      >
-        Edit profile
-      </button>
       <section className="profile__clothing-items">
         <ClothesSection
           onCardClick={onCardClick}
           clothingItems={clothingItems}
           handleAddClick={handleAddClick}
+          onCardLike={onCardLike}
         />
       </section>
     </div>

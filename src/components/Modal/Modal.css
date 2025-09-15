@@ -17,8 +17,8 @@
 .modal__content {
   background-color: #fff;
   position: relative;
-  padding: 28px 28px 36px;
-  max-width: 498px;
+  padding: 20px 20px 40px 20px;
+  max-width: 496px;
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
@@ -37,4 +37,8 @@
   position: absolute;
   top: 20px;
   right: 28px;
+}
+
+.modal__close:hover {
+  scale: 1.2;
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import CurrentTemperatureUnitContext from "../../utils/contexts/CurrentTemperatureUnitContext";
-import { register, login, checkToken, getToken } from "../../utils/auth";
+import { register, login, checkToken } from "../../utils/auth";
+import { saveToken, getToken, removeToken } from "../../utils/token";
 import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
@@ -43,6 +44,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
+  const [loginError, setLoginError] = useState("");
 
   const openRegisterModal = () => setActiveModal("register");
   const openLoginModal = () => setActiveModal("login");
@@ -63,8 +65,8 @@ function App() {
   const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
     setIsLoading(true);
     addItem({ name, imageUrl, weather }, getToken())
-      .then((newItem) => {
-        setClothingItems((prev) => [newItem, ...prev]);
+      .then((res) => {
+        setClothingItems((prev) => [res.data, ...prev]);
         closeActiveModal();
       })
       .catch((err) => console.error(err))
@@ -78,7 +80,7 @@ function App() {
         return login({ email, password });
       })
       .then((res) => {
-        localStorage.setItem("jwt", res.token);
+        saveToken(res.token);
         setIsLoggedIn(true);
         return checkToken(res.token);
       })
@@ -92,60 +94,54 @@ function App() {
 
   const handleLogin = ({ email, password }) => {
     setIsLoading(true);
+    setLoginError("");
     login({ email, password })
       .then((res) => {
-        localStorage.setItem("jwt", res.token);
-        setIsLoggedIn(true);
+        if (!res.token) {
+          throw new Error("No token in response");
+        }
+        saveToken(res.token);
         return checkToken(res.token);
       })
-      .then((user) => {
-        setCurrentUser(user);
+      .then((res) => {
+        setCurrentUser(res.data);
+        loadUserItems(res.data._id);
+        setIsLoggedIn(true);
         closeActiveModal();
       })
-      .catch(console.error)
+      .catch((err) => {
+        console.error(err);
+        setLoginError("Email or password incorrect");
+      })
       .finally(() => setIsLoading(false));
   };
 
   const handleSignOut = () => {
-    localStorage.removeItem("jwt");
+    removeToken();
     setIsLoggedIn(false);
     setCurrentUser(null);
+    setClothingItems([]);
     navigate("/");
   };
 
   const handleUpdateUser = ({ name, avatar }) => {
     setIsLoading(true);
-    updateUser({ name, avatar }, localStorage.getItem("jwt"))
-      .then((updatedUser) => {
-        setCurrentUser(updatedUser);
+    updateUser({ name, avatar }, getToken())
+      .then((res) => {
+        setCurrentUser(res.data);
+        loadUserItems(res.data._id);
         closeActiveModal();
       })
       .catch(console.error)
       .finally(() => setIsLoading(false));
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      checkToken(token)
-        .then((user) => {
-          setIsLoggedIn(true);
-          setCurrentUser(user);
-        })
-        .catch((err) => {
-          console.error(err);
-          setIsLoggedIn(false);
-          setCurrentUser(null);
-        });
-    }
-  }, []);
 
   const handleDeleteItem = (card) => {
     const token = getToken();
     deleteItem(card._id, token)
       .then(() => {
         setClothingItems((prevItems) =>
-          prevItems.filter((item) => item._id !== card._id)
+          prevItems.filter((item) => item._id !== card._id),
         );
         closeActiveModal();
       })
@@ -153,17 +149,27 @@ function App() {
   };
 
   const handleCardLike = ({ _id, likes }) => {
-    const token = localStorage.getItem("jwt");
+    const token = getToken();
 
     const isLiked = likes.some((id) => id === currentUser._id);
 
     const likeAction = !isLiked ? addCardLike : removeCardLike;
 
     likeAction(_id, token)
-      .then((updatedCard) => {
+      .then((res) => {
+        const updatedCard = res.data;
         setClothingItems((cards) =>
-          cards.map((item) => (item._id === _id ? updatedCard : item))
+          cards.map((item) => (item._id === _id ? updatedCard : item)),
         );
+      })
+      .catch(console.error);
+  };
+
+  const loadUserItems = (userId) => {
+    getItems()
+      .then(({ data }) => {
+        const userItems = data.filter((item) => item.owner === userId);
+        setClothingItems(userItems.reverse());
       })
       .catch(console.error);
   };
@@ -175,11 +181,21 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getItems()
-      .then(({ data }) => {
-        setClothingItems(data.reverse());
-      })
-      .catch(console.error);
+    const token = getToken();
+    if (token) {
+      checkToken(token)
+        .then((res) => {
+          setIsLoggedIn(true);
+          setCurrentUser(res.data);
+          loadUserItems(res.data._id);
+        })
+        .catch((err) => {
+          console.error("Token validation failed:", err);
+          setIsLoggedIn(false);
+          setCurrentUser(null);
+          setClothingItems([]);
+        });
+    }
   }, []);
 
   return (
@@ -238,6 +254,7 @@ function App() {
             onClose={closeActiveModal}
             onRegister={handleRegister}
             isLoading={isLoading}
+            onLoginClick={openLoginModal}
           />
 
           <LoginModal
@@ -245,6 +262,9 @@ function App() {
             onClose={closeActiveModal}
             onLogin={handleLogin}
             isLoading={isLoading}
+            onRegisterClick={openRegisterModal}
+            loginError={loginError}
+            setLoginError={setLoginError}
           />
 
           <ItemModal
@@ -252,6 +272,7 @@ function App() {
             card={selectedCard}
             onClose={closeActiveModal}
             onDelete={handleDeleteItem}
+            isDeleting={isLoading}
           />
 
           <EditProfileModal

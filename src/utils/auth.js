@@ -1,9 +1,5 @@
 const BASE_URL = "http://localhost:3001";
 
-export function getToken() {
-  return localStorage.getItem("jwt");
-}
-
 function checkResponse(res) {
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
 }
@@ -33,7 +29,7 @@ export function checkToken(token) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   }).then(checkResponse);
 }

@@ -23,20 +23,22 @@ function ItemCard({ item, onCardClick, onCardLike }) {
 
   return (
     <li className="card">
-      <h2 className="card__name">{item.name}</h2>
+      <div className="card__header">
+        <h2 className="card__name">{item.name}</h2>
+        {currentUser && (
+          <button
+            type="button"
+            className={itemLikeButtonClassName}
+            onClick={handleLike}
+          />
+        )}
+      </div>
       <img
         onClick={handleCardClick}
         className="card__image"
         src={item.imageUrl}
         alt={item.name}
       />
-      {currentUser && (
-        <button
-          type="button"
-          className={itemLikeButtonClassName}
-          onClick={handleLike}
-        />
-      )}
     </li>
   );
 }
