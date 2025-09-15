@@ -84,8 +84,8 @@ function App() {
         setIsLoggedIn(true);
         return checkToken(res.token);
       })
-      .then((user) => {
-        setCurrentUser(user);
+      .then((res) => {
+        setCurrentUser(res.data);
         closeActiveModal();
       })
       .catch(console.error)
@@ -141,7 +141,7 @@ function App() {
     deleteItem(card._id, token)
       .then(() => {
         setClothingItems((prevItems) =>
-          prevItems.filter((item) => item._id !== card._id),
+          prevItems.filter((item) => item._id !== card._id)
         );
         closeActiveModal();
       })
@@ -159,7 +159,7 @@ function App() {
       .then((res) => {
         const updatedCard = res.data;
         setClothingItems((cards) =>
-          cards.map((item) => (item._id === _id ? updatedCard : item)),
+          cards.map((item) => (item._id === _id ? updatedCard : item))
         );
       })
       .catch(console.error);
