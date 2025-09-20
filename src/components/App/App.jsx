@@ -41,15 +41,30 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
-  const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const openRegisterModal = () => setActiveModal("register");
   const openLoginModal = () => setActiveModal("login");
   const openEditProfileModal = () => setActiveModal("edit-profile");
   const closeActiveModal = () => setActiveModal("");
+  const handleAddClick = () => setActiveModal("add-garment");
+
+  function handleSubmit(request) {
+    setIsLoading(true);
+    return request()
+      .then((res) => {
+        setActiveModal("");
+        return res;
+      })
+      .catch((err) => {
+        console.error(err);
+        throw err;
+      })
+      .finally(() => setIsLoading(false));
+  }
 
   const handleToggleSwitchChange = () => {
     setCurrentTemperatureUnit((prev) => (prev === "F" ? "C" : "F"));
@@ -60,61 +75,43 @@ function App() {
     setSelectedCard(card);
   };
 
-  const handleAddClick = () => setActiveModal("add-garment");
+  const handleAddItemModalSubmit = ({ name, imageUrl, weather }) =>
+    handleSubmit(() =>
+      addItem({ name, imageUrl, weather }, getToken()).then((res) =>
+        setClothingItems((prev) => [res.data, ...prev])
+      )
+    );
 
-  const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
-    setIsLoading(true);
-    addItem({ name, imageUrl, weather }, getToken())
-      .then((res) => {
-        setClothingItems((prev) => [res.data, ...prev]);
-        closeActiveModal();
-      })
-      .catch((err) => console.error(err))
-      .finally(() => setIsLoading(false));
-  };
-
-  const handleRegister = ({ name, avatar, email, password }) => {
-    setIsLoading(true);
-    register({ name, avatar, email, password })
-      .then(() => {
-        return login({ email, password });
-      })
-      .then((res) => {
-        saveToken(res.token);
-        setIsLoggedIn(true);
-        return checkToken(res.token);
-      })
-      .then((res) => {
-        setCurrentUser(res.data);
-        loadUserItems(res.data._id);
-        closeActiveModal();
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
-  };
+  const handleRegister = ({ name, avatar, email, password }) =>
+    handleSubmit(() =>
+      register({ name, avatar, email, password })
+        .then(() => login({ email, password }))
+        .then((res) => {
+          saveToken(res.token);
+          setIsLoggedIn(true);
+          return checkToken(res.token);
+        })
+        .then((res) => {
+          setCurrentUser(res.data);
+          loadUserItems(res.data._id);
+        })
+    );
 
   const handleLogin = ({ email, password }) => {
-    setIsLoading(true);
     setLoginError("");
-    login({ email, password })
-      .then((res) => {
-        if (!res.token) {
-          throw new Error("No token in response");
-        }
-        saveToken(res.token);
-        return checkToken(res.token);
-      })
-      .then((res) => {
-        setCurrentUser(res.data);
-        loadUserItems(res.data._id);
-        setIsLoggedIn(true);
-        closeActiveModal();
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoginError("Email or password incorrect");
-      })
-      .finally(() => setIsLoading(false));
+    handleSubmit(() =>
+      login({ email, password })
+        .then((res) => {
+          if (!res.token) throw new Error("No token in response");
+          saveToken(res.token);
+          return checkToken(res.token);
+        })
+        .then((res) => {
+          setCurrentUser(res.data);
+          loadUserItems(res.data._id);
+          setIsLoggedIn(true);
+        })
+    ).catch((err) => setLoginError("Email or password incorrect"));
   };
 
   const handleSignOut = () => {
@@ -125,37 +122,25 @@ function App() {
     navigate("/");
   };
 
-  const handleUpdateUser = ({ name, avatar }) => {
-    setIsLoading(true);
-    updateUser({ name, avatar }, getToken())
-      .then((res) => {
+  const handleUpdateUser = (data) =>
+    handleSubmit(() =>
+      updateUser(data, getToken()).then((res) => {
         setCurrentUser(res.data);
         loadUserItems(res.data._id);
-        closeActiveModal();
       })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
-  };
+    );
 
-  const handleDeleteItem = (card) => {
-    const token = getToken();
-    deleteItem(card._id, token)
-      .then(() => {
-        setClothingItems((prevItems) =>
-          prevItems.filter((item) => item._id !== card._id)
-        );
-        closeActiveModal();
-      })
-      .catch(console.error);
-  };
+  const handleDeleteItem = (card) =>
+    handleSubmit(() =>
+      deleteItem(card._id, getToken()).then(() =>
+        setClothingItems((prev) => prev.filter((item) => item._id !== card._id))
+      )
+    );
 
   const handleCardLike = ({ _id, likes }) => {
     const token = getToken();
-
     const isLiked = likes.some((id) => id === currentUser._id);
-
     const likeAction = !isLiked ? addCardLike : removeCardLike;
-
     likeAction(_id, token)
       .then((res) => {
         const updatedCard = res.data;

@@ -1,4 +1,7 @@
-export const BASE_URL = "http://localhost:3001";
+export const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://api.what2wear.undo.it"
+    : "http://localhost:3001";
 
 export const weatherOptions = [
   {
