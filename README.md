@@ -33,3 +33,4 @@ The idea of the application is pretty simple - we make a call to an API, which t
 - [GH Pages](https://alex-manis.github.io/se_project_react)
 - [Figma Design](https://www.figma.com/design/dQLJwEKasIdspciJAJrCaf/Sprint-11_-WTWR)
 - [Backend Repository](https://github.com/alex-manis/se_project_express)
+- [Deployed Backend Domain](https://api.what2wear.undo.it)
