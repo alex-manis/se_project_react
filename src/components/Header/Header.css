@@ -7,6 +7,7 @@
 .header__logo {
   margin-right: 24px;
   max-width: 89px;
+  filter: none;
 }
 
 .header__date-and-location {
@@ -27,7 +28,9 @@
   line-height: 24px;
   font-weight: 700;
   border: none;
+  background: none;
   cursor: pointer;
+  color: var(--text-color);
 }
 
 .header .header__add-clothes-btn:hover {
@@ -57,6 +60,7 @@
   font-size: 20px;
   font-weight: 700;
   line-height: 24px;
+  color: var(--text-color);
 }
 
 .header__username:hover {
@@ -76,7 +80,7 @@
 .header__auth-btn {
   background: transparent;
   border: none;
-  color: #000;
+  color: var(--text-color);
   cursor: pointer;
   padding: 0;
   font-family: "Cabinet Grotesk", sans-serif;

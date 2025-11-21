@@ -4,6 +4,7 @@ import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import CurrentUserContext from "../../utils/contexts/CurrentUserContext";
+import Loader from "../Loader/Loader";
 
 function Header({
   handleAddClick,
@@ -17,6 +18,8 @@ function Header({
     day: "numeric",
   });
 
+  const isLoading = !weatherData;
+
   return (
     <header className="header">
       <Link to="/">
@@ -24,7 +27,8 @@ function Header({
       </Link>
 
       <p className="header__date-and-location">
-        {currentDate}, {weatherData.city}
+        {isLoading ? <Loader /> : currentDate},{" "}
+        {isLoading ? <Loader /> : weatherData.city}
       </p>
       <ToggleSwitch />
 

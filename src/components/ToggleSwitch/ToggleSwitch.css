@@ -26,7 +26,7 @@
   position: absolute;
   border-radius: 50%;
   left: 0;
-  transition: all 0.1s;
+  transition: all 0.3s;
 }
 
 .toggle-switch__text {
@@ -37,9 +37,7 @@
   font-weight: 700;
   font-size: 14px;
   line-height: 100%;
-  transition:
-    transform 0.2s,
-    color 0.2s;
+  transition: transform 0.3s, color 0.3s;
   mix-blend-mode: normal;
 }
 
@@ -72,4 +70,10 @@
 
 .toggle-switch__text_color-white {
   color: #fff;
+}
+
+.toggle-switch--hidden,
+.toggle-switch--hidden * {
+  visibility: hidden !important;
+  transition: none !important;
 }

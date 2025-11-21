@@ -27,10 +27,10 @@
   font-size: 20px;
   font-weight: 700;
   line-height: 100%;
-  color: #00000099;
+  color: var(--text-color);
 }
 .clothes-section__add-new-btn:hover {
-  color: #000;
+  text-decoration: underline;
 }
 
 .clothes-section__items {

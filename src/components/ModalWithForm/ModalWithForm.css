@@ -4,6 +4,7 @@
   font-size: 16px;
   line-height: 20px;
   margin: 0 0 24px;
+  color: var(--text-color-const);
 }
 
 .modal__form {
@@ -50,8 +51,11 @@
   line-height: 20px;
 }
 
+.modal__label {
+  color: var(--text-color-const);
+}
 .modal__label_type_radio {
-  color: #00000080;
+  color: var(--text-color-const);
 }
 
 .modal__radio-input {
