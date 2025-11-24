@@ -10,7 +10,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "npm run build && scp -r ./dist/* erandillcheg@what2wear.undo.it:~/frontend && ssh erandillcheg@what2wear.undo.it 'sudo chown -R www-data:www-data ~/frontend && sudo chmod -R 755 ~/frontend'"
+    "deploy": "npm run build && scp -r ./dist/* erandillcheg@what2wear.undo.it:~/frontend && ssh erandillcheg@what2wear.undo.it \"sudo chown -R www-data:www-data ~/frontend && sudo chmod -R 755 ~/frontend\""
   },
   "homepage": "https://what2wear.undo.it",
   "dependencies": {

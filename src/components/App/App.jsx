@@ -26,6 +26,7 @@ import Profile from "../Profile/Profile";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
+import Intro from "../Intro/Intro";
 import "../../vendor/fonts.css";
 
 function App() {
@@ -217,6 +218,8 @@ function App() {
         >
           <div className="page">
             <div className="page_content">
+              {weatherData && <Intro weatherData={weatherData} />}
+
               <Header
                 handleAddClick={handleAddClick}
                 weatherData={weatherData}
