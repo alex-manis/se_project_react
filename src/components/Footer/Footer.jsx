@@ -1,6 +1,6 @@
 import "./Footer.css";
 import { useContext } from "react";
-import ThemeContext from "../../utils/contexts/ThemeContext";
+import { ThemeContext } from "../../utils/contexts/ThemeContext";
 
 function Footer() {
   const { theme, toggleTheme } = useContext(ThemeContext);
