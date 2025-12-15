@@ -1,6 +1,6 @@
 export const BASE_URL =
   process.env.NODE_ENV === "production"
-    ? "https://api.what2wear.undo.it"
+    ? "https://se-project-express-u08e.onrender.com"
     : "http://localhost:3001";
 
 export const weatherOptions = [
